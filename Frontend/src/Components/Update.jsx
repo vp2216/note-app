@@ -1,13 +1,12 @@
 import "../Styles/Create.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { MdHome, MdLogout } from "react-icons/md";
-import { IoMdAdd } from "react-icons/io";
+import { MdEdit, MdLogout } from "react-icons/md";
 
-export default function Create() {
+export default function Update({ update, setUpdate }) {
   const navigate = useNavigate();
-  const [title, setTitle] = useState("");
-  const [description, setDesription] = useState("");
+  const [title, setTitle] = useState(update.title);
+  const [description, setDesription] = useState(update.description);
 
   function add(e) {
     e.preventDefault();
@@ -19,44 +18,23 @@ export default function Create() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    fetch("https://note-app-exmz.onrender.com/notes/", {
-      method: "POST",
+    fetch(`https://note-app-exmz.onrender.com/notes/${update._id}`, {
+      method: "PUT",
       body: formData,
       headers: { authorization: token },
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === 200) {
-          navigate("/main");
-          return;
-        } else {
           alert(data.message);
-        }
+          setUpdate({});
+          return;
       });
   }
 
   return (
     <>
       {sessionStorage.getItem("token") ? (
-        <div className="main">
-          <nav className="nav">
-            <div className="main-nav">
-              <span className="icon-body" onClick={() => navigate("/main")}>
-                <MdHome className="icon" />
-                Home
-              </span>
-            </div>
-            <span
-              className="icon-body"
-              onClick={() => {
-                sessionStorage.setItem("token", "");
-                navigate("/");
-              }}
-            >
-              <MdLogout className="icon" />
-              Logout
-            </span>
-          </nav>
+        <div className="update-main">
           <main className="create-body">
             <form>
               <input
@@ -72,9 +50,9 @@ export default function Create() {
                 placeholder="Write your note here..."
                 className="create-input create-textarea"
               ></textarea>
-              <button className="icon-body create-btn" onClick={add}>
-                <IoMdAdd className="icon black" />
-                Add
+              <button className="create-btn icon-body" onClick={add}>
+                <MdEdit className="icon black" />
+                Update
               </button>
             </form>
           </main>

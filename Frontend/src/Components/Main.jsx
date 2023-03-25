@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import "../Styles/Main.css";
 import { useNavigate } from "react-router-dom";
 import { formatRelative } from "date-fns";
+import { IoMdAdd } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
+import { MdDelete, MdLogout, MdEdit } from "react-icons/md";
+import Update from "./Update";
 
 export default function Main() {
   const navigate = useNavigate();
@@ -9,6 +13,8 @@ export default function Main() {
   const [data, setData] = useState([]);
   const [searchData, setSearchData] = useState([]);
   const [show, setShow] = useState({});
+  const [searchTrue, setSearchTrue] = useState(false);
+  const [update, setUpdate] = useState({});
 
   function getData() {
     const token = sessionStorage.getItem("token");
@@ -28,13 +34,25 @@ export default function Main() {
 
   useEffect(() => {
     if (!search || !data) {
+      setSearchTrue(false);
       setSearchData([]);
       return;
     } else {
-      const regex = new RegExp("^" + search);
+      if (
+        search.includes("[") ||
+        search.includes("*") ||
+        search.includes("(") ||
+        search.includes(")") ||
+        search.match(/\\$/)
+      ) {
+        alert("Please dont input invalud charecters");
+        return;
+      }
+      const regex = new RegExp("^" + search.toLowerCase());
       const filterdata = data.filter((i) => {
-        return regex.test(i.title);
+        return regex.test(i.title.toLowerCase());
       });
+      setSearchTrue(true);
       setSearchData(filterdata);
     }
   }, [search, data]);
@@ -67,68 +85,103 @@ export default function Main() {
       });
   }
 
+  useEffect(() => {
+    setShow({});
+    if (Object.keys(update).length === 0) getData();
+  }, [update]);
+
   return (
     <>
       {sessionStorage.getItem("token") ? (
         <div className="main">
           <nav className="nav">
             <div className="main-nav">
-              <span onClick={() => navigate("/create")}>Add-Note</span>
-              <span onClick={removeall}>Delete-All</span>
+              <span className="icon-body" onClick={() => navigate("/create")}>
+                <IoMdAdd className="icon" />
+                Add-Note
+              </span>
+
+              <span className="icon-body" onClick={removeall}>
+                <MdDelete className="icon" />
+                Delete-All
+              </span>
             </div>
             <span
+              className="icon-body"
               onClick={() => {
                 sessionStorage.setItem("token", "");
                 navigate("/");
               }}
             >
+              <MdLogout className="icon" />
               Logout
             </span>
           </nav>
-          <main className="main-body">
-            <input
-              placeholder="Search title here..."
-              className="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <div className="content-box">
-              {(searchData.length != 0 ? searchData : data).map((data, i) => {
-                return (
-                  <div
-                    key={i}
-                    onClick={() => setShow(data)}
-                    className="content"
-                  >
-                    <span className="time">
-                      {formatRelative(new Date(data.createdAt), new Date())}
-                    </span>
-                    <span className="content-head">{data.title}</span>
-                    <p className="content-para">{data.description}</p>
-                  </div>
-                );
-              })}
-            </div>
-            {Object.keys(show).length != 0 ? (
-              <div className="fixed">
-                <div className="content-show-div">
-                  <div className="content absolute">
-                    <span className="content-close" onClick={() => setShow({})}>
-                      X Close
-                    </span>
-                    <span className="time">
-                      {formatRelative(new Date(show.createdAt), new Date())}
-                    </span>
-                    <span className="content-head">{show.title}</span>
-                    <p className="content-para-show">{show.description}</p>
-                    <span>
-                      <button className="error-btn" onClick={()=>remove(show._id)}>Remove</button>
-                    </span>
+          {Object.keys(update).length !== 0 ? (
+            <Update update={update} setUpdate={setUpdate} />
+          ) : (
+            <main className="main-body">
+              <input
+                placeholder="Search title here..."
+                className="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <div className="content-box">
+                {(searchTrue ? searchData : data).map((data, i) => {
+                  return (
+                    <div
+                      key={i}
+                      onClick={() => setShow(data)}
+                      className="content"
+                    >
+                      <span className="time">
+                        {formatRelative(new Date(data.createdAt), new Date())}
+                      </span>
+                      <span className="content-head">{data.title}</span>
+                      <p className="content-para">{data.description}</p>
+                    </div>
+                  );
+                })}
+              </div>
+              {Object.keys(show).length !== 0 ? (
+                <div className="fixed">
+                  <div className="content-show-div">
+                    <div className="content no-hover absolute">
+                      <span
+                        className="icon-body content-close"
+                        onClick={() => setShow({})}
+                      >
+                        <IoClose className="icon black" />
+                        Close
+                      </span>
+                      <span className="time">
+                        {formatRelative(new Date(show.createdAt), new Date())}
+                      </span>
+                      <span className="content-head">{show.title}</span>
+                      <p className="content-para-show">{show.description}</p>
+                      <span className="content-show-btns">
+                        <button
+                          className="error-btn remove-btn icon-body"
+                          onClick={() => remove(show._id)}
+                        >
+                          <MdDelete className="icon black" />
+                          Remove
+                        </button>
+                        <button
+                          className="error-btn icon-body"
+                          onClick={() => setUpdate(show)}
+                        >
+                          <MdEdit className="icon black" />
+                          Update
+                        </button>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : null}
-          </main>
+              ) : null}
+            </main>
+          )}
         </div>
       ) : (
         <div className="error">

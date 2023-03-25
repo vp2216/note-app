@@ -25,7 +25,7 @@ export default function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == 200) {
+        if (data.status === 200) {
           sessionStorage.setItem("token", data.token);
           navigate("/main");
         } else {

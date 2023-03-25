@@ -80,6 +80,17 @@
   padding: 1.5rem;
   background: rgb(136, 219, 252);
   border-radius: 0.25rem;
+  transition: ease-in-out 200ms;
+  cursor: pointer;
+}
+
+.content:hover {
+  background: rgb(97, 210, 255);
+}
+
+.no-hover:hover {
+  background: rgb(136, 219, 252);
+  cursor: default;
 }
 
 .content-head {
@@ -143,35 +154,68 @@
   background: rgb(39, 194, 255);
 }
 
-.time{
-  font-size: 1rem;
+.time {
+  font-size: 0.9rem;
   font-weight: 700;
   color: gray;
 }
 
-.content-show-div{
+.content-show-div {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: rgb(0, 0, 0,0.5);
+  background: rgb(0, 0, 0, 0.5);
 }
 
-.fixed{
+.fixed {
   position: fixed;
   top: 0;
   left: 0;
 }
 
-.absolute{
-  position:absolute;
+.absolute {
+  position: absolute;
 }
 
-.content-close{
+.content-close {
   width: 100%;
   text-align: right;
   font-weight: 700;
-  font-size:1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  justify-content: flex-end;
+}
+
+.icon {
+  color: white;
+  font-size: 1.3rem;
+}
+
+.icon-body {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 1rem;
+}
+
+.black {
+  color: black;
+}
+
+.content-show-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.remove-btn {
+  background: rgb(255, 72, 72);
+}
+
+.remove-btn:hover {
+  background: rgb(255, 97, 97);
 }
