@@ -8,9 +8,9 @@ export default function Main() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [searchData, setSearchData] = useState([]);
-  const [show,setShow] = useState({})
+  const [show, setShow] = useState({});
 
- function getData(){
+  function getData() {
     const token = sessionStorage.getItem("token");
     fetch("https://note-app-exmz.onrender.com/notes/", {
       method: "GET",
@@ -20,19 +20,18 @@ export default function Main() {
       .then((data) => {
         setData(data.data);
       });
-  };
+  }
 
   useEffect(() => {
     getData();
-  },[])
-  
+  }, []);
+
   useEffect(() => {
     if (!search || !data) {
       setSearchData([]);
       return;
-    }
-    else {
-      const regex = new RegExp("^" + search)
+    } else {
+      const regex = new RegExp("^" + search);
       const filterdata = data.filter((i) => {
         return regex.test(i.title);
       });
@@ -40,8 +39,32 @@ export default function Main() {
     }
   }, [search, data]);
 
-  function getShow(data) {
-    setShow(data)
+  function remove(id) {
+    const token = sessionStorage.getItem("token");
+    fetch(`https://note-app-exmz.onrender.com/notes/${id}`, {
+      method: "DELETE",
+      headers: { authorization: token },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setShow({});
+        getData();
+        alert(data.message);
+      });
+  }
+
+  function removeall() {
+    const token = sessionStorage.getItem("token");
+    fetch(`https://note-app-exmz.onrender.com/notes/`, {
+      method: "DELETE",
+      headers: { authorization: token },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setShow({});
+        getData();
+        alert(data.message);
+      });
   }
 
   return (
@@ -52,7 +75,7 @@ export default function Main() {
             <div className="main-nav">
               <span onClick={() => navigate("/main")}>Home</span>
               <span onClick={() => navigate("/create")}>Add-Note</span>
-              <span>Delete-All</span>
+              <span onClick={removeall}>Delete-All</span>
             </div>
             <span
               onClick={() => {
@@ -75,7 +98,7 @@ export default function Main() {
                 return (
                   <div
                     key={i}
-                    onClick={() => getShow(data)}
+                    onClick={() => setShow(data)}
                     className="content"
                   >
                     <span className="time">
@@ -91,12 +114,17 @@ export default function Main() {
               <div className="fixed">
                 <div className="content-show-div">
                   <div className="content absolute">
-                    <span className="content-close" onClick={()=>setShow({})}>X Close</span>
+                    <span className="content-close" onClick={() => setShow({})}>
+                      X Close
+                    </span>
                     <span className="time">
                       {formatRelative(new Date(show.createdAt), new Date())}
                     </span>
                     <span className="content-head">{show.title}</span>
                     <p className="content-para-show">{show.description}</p>
+                    <span>
+                      <button className="error-btn" onClick={()=>remove(show._id)}>Remove</button>
+                    </span>
                   </div>
                 </div>
               </div>

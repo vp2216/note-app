@@ -35,4 +35,20 @@ app.get("/", async (req, res) => {
     })
 })
 
+
+app.delete("/:id", async (req, res) => {
+    const id = req.params.id;
+    await note.deleteOne({ _id: id });
+    res.json({
+        message:"Delete Successful"
+    })
+})
+
+app.delete("/", async (req, res) => {
+  await note.deleteMany({ user:req.user });
+  res.json({
+    message: "Delete Successful",
+  });
+});
+
 module.exports = app;
