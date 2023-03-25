@@ -39,7 +39,7 @@
 }
 
 .main-body {
-  padding: 2rem 2rem 0 2rem;
+  padding: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,11 +163,12 @@
 .content-show-div {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: rgb(0, 0, 0, 0.5);
+  background: rgb(0, 0, 0, 0.8);
+  overflow-y: scroll;
 }
 
 .fixed {
