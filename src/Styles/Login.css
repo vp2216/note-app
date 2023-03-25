@@ -1,0 +1,90 @@
+.login-main {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  background: rgb(0, 183, 255);
+}
+
+.login-header{
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+.login-form-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  background: white;
+  padding: 3rem;
+  border-radius: 0.25rem;
+}
+
+.login-input {
+  padding: 0.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  cursor: text;
+  width: 100%;
+  box-sizing: border-box;
+  background: lightgray;
+  border-radius: 0.25rem;
+}
+
+.login-btn {
+  padding: 0.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+  background: rgb(0, 183, 255);
+  transition: ease-in-out 100ms;
+  width: 100%;
+}
+
+.login-btn:hover {
+  background: rgb(39, 194, 255);
+}
+
+.checkbox-span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.checkbox-span input {
+  cursor: pointer;
+}
+
+.lable {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.link {
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.login-message{
+  font-weight: 700;
+  color: rgb(51, 51, 51);
+}
+
+.change{
+  text-transform: uppercase;
+  cursor: pointer;
+  color: purple;
+}

@@ -1,0 +1,50 @@
+.create-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+}
+
+.create-body form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: column;
+  width: 100%;
+}
+
+.create-input {
+  padding: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  cursor: text;
+  box-sizing: border-box;
+  background: white;
+  width: 50%;
+  border-radius: 0.25rem;
+}
+
+.create-textarea {
+  resize: none;
+}
+
+.create-btn {
+  padding: 0.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+  background: rgb(0, 183, 255);
+  transition: ease-in-out 100ms;
+  width: 50%;
+}
+
+.create-btn:hover {
+  background: rgb(39, 194, 255);
+}
