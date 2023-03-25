@@ -73,7 +73,6 @@ export default function Main() {
         <div className="main">
           <nav className="nav">
             <div className="main-nav">
-              <span onClick={() => navigate("/main")}>Home</span>
               <span onClick={() => navigate("/create")}>Add-Note</span>
               <span onClick={removeall}>Delete-All</span>
             </div>

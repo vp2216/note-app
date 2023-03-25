@@ -40,8 +40,6 @@ export default function Create() {
           <nav className="nav">
             <div className="main-nav">
               <span onClick={() => navigate("/main")}>Home</span>
-              <span onClick={() => navigate("/create")}>Add-Note</span>
-              <span>Delete-All</span>
             </div>
             <span
               onClick={() => {
